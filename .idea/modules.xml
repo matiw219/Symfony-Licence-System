@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/symfony-security-template.iml" filepath="$PROJECT_DIR$/.idea/symfony-security-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Symfony-Licence-System.iml" filepath="$PROJECT_DIR$/.idea/Symfony-Licence-System.iml" />
     </modules>
   </component>
 </project>
