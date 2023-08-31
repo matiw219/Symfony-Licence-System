@@ -76,7 +76,11 @@ class ReleaseCrudController extends AbstractCrudController
     {
         return $actions
             ->add(Crud::PAGE_INDEX, Action::new('detail', 'Detail')
-                ->linkToCrudAction(Crud::PAGE_DETAIL));
+                ->linkToCrudAction(Crud::PAGE_DETAIL))
+            ->add(Crud::PAGE_INDEX, Action::new('download', 'Download')
+                ->linkToRoute('app_release_download', function (Release $release) {
+                    return ['id' => $release->getId()];
+                }));
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
