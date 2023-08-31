@@ -32,10 +32,12 @@ class GenreCrudController extends AbstractCrudController
             TextField::new('name')
         ];
         if ($pageName === Crud::PAGE_EDIT || $pageName === Crud::PAGE_NEW) {
+            $res[] = AssociationField::new('applications')->setDisabled();
             return $res;
         }
         $res[] = AssociationField::new('admin');
         $res[] = DateTimeField::new('createdAt');
+        $res[] = AssociationField::new('applications')->setDisabled();
         return $res;
     }
 

@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class ApplicationCrudController extends AbstractCrudController
 {
@@ -51,6 +52,8 @@ class ApplicationCrudController extends AbstractCrudController
             $res[] = AssociationField::new('admin');
             $res[] = DateTimeField::new('createdAt');
         }
+
+        $res[] = AssociationField::new('releases')->setDisabled();
         return $res;
     }
 

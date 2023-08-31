@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Release;
+use App\Service\FileService;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -14,15 +15,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use phpDocumentor\Reflection\Types\Collection;
-use function Sodium\add;
 
 class ReleaseCrudController extends AbstractCrudController
 {
+
+    public function __construct(
+        private FileService $fileService
+    )
+    {}
+
     public static function getEntityFqcn(): string
     {
         return Release::class;
@@ -48,7 +54,11 @@ class ReleaseCrudController extends AbstractCrudController
             false => $res[] = TextEditorField::new('description')
         };
 
-        $res[] = TextField::new('fileName');
+        match ($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT) {
+            true => $res[] = ChoiceField::new('fileName')->setChoices([$this->fileService->getAllFiles()]),
+            false => $res[] = TextField::new('fileName')
+        };
+
         if ($pageName === Crud::PAGE_INDEX || $pageName === Crud::PAGE_DETAIL) {
             $res[] = AssociationField::new('admin');
             $res[] = DateTimeField::new('createdAt');
