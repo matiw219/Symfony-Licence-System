@@ -47,9 +47,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'admin', targetEntity: Genre::class)]
     private Collection $genres;
 
+    #[ORM\OneToMany(mappedBy: 'admin', targetEntity: Application::class)]
+    private Collection $applications;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
 
@@ -203,6 +207,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($genre->getAdmin() === $this) {
                 $genre->setAdmin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getAdmin() === $this) {
+                $application->setAdmin(null);
             }
         }
 
