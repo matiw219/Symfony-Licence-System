@@ -6,6 +6,7 @@ use App\Entity\Application;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -53,6 +54,10 @@ class ApplicationCrudController extends AbstractCrudController
         return $res;
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters->add('genre')->add('admin');
+    }
 
     public function configureActions(Actions $actions): Actions
     {
