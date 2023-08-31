@@ -112,11 +112,6 @@ class Application
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->getName();
-    }
-
     public function getCost(): ?float
     {
         return $this->cost;
@@ -127,5 +122,10 @@ class Application
         $this->cost = $cost;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
