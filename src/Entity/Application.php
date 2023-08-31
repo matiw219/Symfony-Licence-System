@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ApplicationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,14 @@ class Application
 
     #[ORM\Column]
     private ?float $cost = null;
+
+    #[ORM\OneToMany(mappedBy: 'application', targetEntity: Release::class)]
+    private Collection $releases;
+
+    public function __construct()
+    {
+        $this->releases = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,5 +137,35 @@ class Application
     public function __toString(): string
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection<int, Release>
+     */
+    public function getReleases(): Collection
+    {
+        return $this->releases;
+    }
+
+    public function addRelease(Release $release): static
+    {
+        if (!$this->releases->contains($release)) {
+            $this->releases->add($release);
+            $release->setApplication($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelease(Release $release): static
+    {
+        if ($this->releases->removeElement($release)) {
+            // set the owning side to null (unless already changed)
+            if ($release->getApplication() === $this) {
+                $release->setApplication(null);
+            }
+        }
+
+        return $this;
     }
 }
