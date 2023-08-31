@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,6 +43,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?PasswordReset $passwordReset = null;
+
+    #[ORM\OneToMany(mappedBy: 'admin', targetEntity: Genre::class)]
+    private Collection $genres;
+
+    public function __construct()
+    {
+        $this->genres = new ArrayCollection();
+    }
 
 
     public function getEmailVerification(): ?EmailVerification
@@ -167,6 +177,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->getUsername();
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): static
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres->add($genre);
+            $genre->setAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): static
+    {
+        if ($this->genres->removeElement($genre)) {
+            // set the owning side to null (unless already changed)
+            if ($genre->getAdmin() === $this) {
+                $genre->setAdmin(null);
+            }
+        }
+
+        return $this;
     }
 
 }
