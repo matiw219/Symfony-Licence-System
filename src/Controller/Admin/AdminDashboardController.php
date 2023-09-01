@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Application;
 use App\Entity\Genre;
+use App\Entity\Licence;
 use App\Entity\Release;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -34,5 +35,6 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Genre', 'fa fa-list',Genre::class);
         yield MenuItem::linkToCrud('Application', 'fa fa-plug',Application::class);
         yield MenuItem::linkToCrud('Release', 'fa fa-file-shield',Release::class);
+        yield MenuItem::linkToCrud('Licence', 'fa fa-key',Licence::class);
     }
 }
