@@ -54,6 +54,7 @@ class ApplicationCrudController extends AbstractCrudController
         }
 
         $res[] = AssociationField::new('releases')->setDisabled();
+        $res[] = AssociationField::new('licences')->setDisabled();
         return $res;
     }
 
