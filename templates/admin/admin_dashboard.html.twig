@@ -1,25 +1,26 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title %}The Title of the Page{% endblock %}
-{% block page_actions %}
-    <a class="btn btn-primary" href="...">Some Action</a>
-{% endblock %}
+{% block content_title %}Dashboard{% endblock %}
 
 {% block main %}
-    <table class="datagrid">
-        <thead>
-        <tr>
-            <td>Some Column</td>
-            <td>Another Column</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for data in my_own_data %}
-            <tr>
-                <td>{{ data.someColumn }}</td>
-                <td>{{ data.anotherColumn }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <hr>
+    <div class="container">
+        <div class="col-lg-12 col-xl-4">
+            <div class="row">
+                <div class="col-12 border border-1 border-light p-3 rounded-2 mb-3">
+                    <h5><i class="fa-solid fa-user"></i> Użytkownicy: <span class="badge bg-dark">{{ userCount }}</span></h5>
+                    <br>
+                    <h5><i class="fa-solid fa-user-gear"></i> Administratorzy: <span class="badge bg-dark">{{ adminCount }}</span></h5>
+                    <small>Administratorzy są wliczeni do użytkowników.</small>
+                </div>
+                <div class="col-12 border border-1 border-light p-3 rounded-2 mb-3">
+                    <h5><i class="fa-solid fa-user"></i> Kategorie: <span class="badge bg-dark">{{ genreCount }}</span></h5>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

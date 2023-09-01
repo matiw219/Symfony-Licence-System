@@ -7,6 +7,8 @@ use App\Entity\Genre;
 use App\Entity\Licence;
 use App\Entity\Release;
 use App\Entity\User;
+use App\Service\GenreService;
+use App\Service\UserService;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -16,10 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminDashboardController extends AbstractDashboardController
 {
 
+    public function __construct(
+        private UserService $userService,
+        private GenreService $genreService,
+    )
+    {}
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return $this->render('admin/content.html.twig');
+        return $this->render('admin/admin_dashboard.html.twig', [
+            'userCount' => $this->userService->getUserCount(),
+            'adminCount' => $this->userService->getAdminCount(),
+            'genreCount' => $this->genreService->getGenreCount()
+        ]);
     }
 
     public function configureDashboard(): Dashboard
