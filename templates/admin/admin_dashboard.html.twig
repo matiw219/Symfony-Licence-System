@@ -4,23 +4,113 @@
 
 {% block main %}
     <hr>
-    <div class="container">
-        <div class="col-lg-12 col-xl-4">
-            <div class="row">
-                <div class="col-12 border border-1 border-light p-3 rounded-2 mb-3">
-                    <h5><i class="fa-solid fa-user"></i> Użytkownicy: <span class="badge bg-dark">{{ userCount }}</span></h5>
-                    <br>
-                    <h5><i class="fa-solid fa-user-gear"></i> Administratorzy: <span class="badge bg-dark">{{ adminCount }}</span></h5>
-                    <small>Administratorzy są wliczeni do użytkowników.</small>
-                </div>
-                <div class="col-12 border border-1 border-light p-3 rounded-2 mb-3">
-                    <h5><i class="fa-solid fa-user"></i> Kategorie: <span class="badge bg-dark">{{ genreCount }}</span></h5>
-                    <div>
 
+    <script>
+
+    </script>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 p-1">
+                <div class="border-primary border-1 p-3">
+                    <h5><i class="fa-solid fa-user"></i> Users: <span class="badge bg-dark">{{ userCount }}</span></h5>
+                    <br>
+                    <h5><i class="fa-solid fa-user-gear"></i> Admins: <span class="badge bg-dark">{{ adminCount }}</span></h5>
+                    <small>Admins are included in users.</small>
+                </div>
+            </div>
+            <div class="col-6 p-1">
+                <div class="border-primary border-1 p-3">
+                    <h5><i class="fa-solid fa-list"></i> Genres: <span class="badge bg-dark">{{ genreCount }}</span></h5>
+                </div>
+            </div>
+            <div class="col-12 p-1">
+                <div class="border-primary border-1 p-3">
+                    <h5><i class="fa fa-key"></i> Licences: <span class="badge bg-dark">{{ licenceCount }}</span></h5>
+                    <div>
+                        <canvas id="chartLicences"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 p-1">
+                <div class="border-primary border-1 p-3">
+                    <h5><i class="fa-solid fa-plug"></i> Applications: <span class="badge bg-dark">{{ applicationCount }}</span></h5>
+                    <div>
+                        <canvas id="chartApplications"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 p-1">
+                <div class="border-primary border-1 p-3">
+                    <h5><i class="fa fa-file-shield"></i> Releases: <span class="badge bg-dark">{{ releaseCount }}</span></h5>
+                    <div class="chart-container" style="position: relative; height: 70vh; width:100%">
+                        <canvas id="chartReleases"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var days = {{ dates|raw }};
+        var appData = {{ applicationValues|raw }};
+        var releaseData = {{ releaseValues|raw }};
+        var licenceData = {{ licenceValues|raw }};
+
+
+        var ctx1 = document.getElementById('chartApplications');
+        var data = {
+            labels: days,
+            datasets: [{label: 'Applications', data: appData, borderWidth: 1, borderColor: '#2389da', backgroundColor: '#2389da'},]
+        }
+        new Chart(ctx1, {
+            type: 'line', data: data, options: {
+
+                plugins: {title: {display: false,}},
+                scales: {
+                    y: {beginAtZero: true, display: true, ticks: {callback: function(value, index, values) {return value;}}},
+                    x: {display: true}
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('chartReleases');
+        var data = {
+            labels: days,
+            datasets: [{label: 'Releases', data: releaseData, borderWidth: 1, borderColor: '#2389da', backgroundColor: '#2389da'},]
+        }
+        new Chart(ctx2, {
+            type: 'line', data: data, options: {
+
+                plugins: {title: {display: false,}},
+                scales: {
+                    y: {beginAtZero: true, display: true, ticks: {callback: function(value, index, values) {return value;}}},
+                    x: {display: true}
+                }
+            }
+        });
+
+        var ctx3 = document.getElementById('chartLicences');
+        var data = {
+            labels: days,
+            datasets: [{label: 'Licences', data: licenceData, borderWidth: 1, borderColor: '#2389da', backgroundColor: '#2389da'},]
+        }
+        new Chart(ctx3, {
+            type: 'line', data: data, options: {
+
+                plugins: {title: {display: false,}},
+                scales: {
+                    y: {beginAtZero: true, display: true, ticks: {callback: function(value, index, values) {return value;}}},
+                    x: {display: true}
+                }
+            }
+        });
+
+
+
+    </script>
 
 {% endblock %}

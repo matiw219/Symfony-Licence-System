@@ -7,8 +7,12 @@ use App\Entity\Genre;
 use App\Entity\Licence;
 use App\Entity\Release;
 use App\Entity\User;
+use App\Service\ApplicationService;
 use App\Service\GenreService;
+use App\Service\LicenceService;
+use App\Service\ReleaseService;
 use App\Service\UserService;
+use App\Util\GraphUtil;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -21,6 +25,9 @@ class AdminDashboardController extends AbstractDashboardController
     public function __construct(
         private UserService $userService,
         private GenreService $genreService,
+        private ApplicationService $applicationService,
+        private ReleaseService $releaseService,
+        private LicenceService $licenceService
     )
     {}
 
@@ -30,7 +37,14 @@ class AdminDashboardController extends AbstractDashboardController
         return $this->render('admin/admin_dashboard.html.twig', [
             'userCount' => $this->userService->getUserCount(),
             'adminCount' => $this->userService->getAdminCount(),
-            'genreCount' => $this->genreService->getGenreCount()
+            'genreCount' => $this->genreService->getGenreCount(),
+            'applicationCount' => $this->applicationService->getApplicationCount(),
+            'releaseCount' => $this->releaseService->getReleaseCount(),
+            'licenceCount' => $this->licenceService->getLicenceCount(),
+            'dates' => json_encode(array_reverse(GraphUtil::graphDates())),
+            'applicationValues' => json_encode(array_values(GraphUtil::fixGraphData($this->applicationService->graphData()))),
+            'releaseValues' => json_encode(array_values(GraphUtil::fixGraphData($this->releaseService->graphData()))),
+            'licenceValues' => json_encode(array_values(GraphUtil::fixGraphData($this->licenceService->graphData()))),
         ]);
     }
 

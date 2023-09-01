@@ -7,14 +7,18 @@ use App\Repository\GenreRepository;
 class GenreService
 {
 
+    private array $genres;
+
     public function __construct(
-        private GenreRepository $genreRepository
+        private GenreRepository $genreRepository,
     )
-    {}
+    {
+        $this->genres = $this->genreRepository->findAll();
+    }
 
     public function getGenreCount() : int
     {
-        return $this->genreRepository->count([]);
+        return count($this->genres);
     }
 
 }
