@@ -40,9 +40,13 @@ class Application
     #[ORM\OneToMany(mappedBy: 'application', targetEntity: Release::class)]
     private Collection $releases;
 
+    #[ORM\OneToMany(mappedBy: 'application', targetEntity: Licence::class, orphanRemoval: true)]
+    private Collection $licences;
+
     public function __construct()
     {
         $this->releases = new ArrayCollection();
+        $this->licences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,6 +167,36 @@ class Application
             // set the owning side to null (unless already changed)
             if ($release->getApplication() === $this) {
                 $release->setApplication(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Licence>
+     */
+    public function getLicences(): Collection
+    {
+        return $this->licences;
+    }
+
+    public function addLicence(Licence $licence): static
+    {
+        if (!$this->licences->contains($licence)) {
+            $this->licences->add($licence);
+            $licence->setApplication($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLicence(Licence $licence): static
+    {
+        if ($this->licences->removeElement($licence)) {
+            // set the owning side to null (unless already changed)
+            if ($licence->getApplication() === $this) {
+                $licence->setApplication(null);
             }
         }
 
