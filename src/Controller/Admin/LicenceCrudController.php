@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -39,7 +40,8 @@ class LicenceCrudController extends AbstractCrudController
             BooleanField::new('requirePort'),
             IntegerField::new('port'),
             AssociationField::new('application'),
-            AssociationField::new('user')
+            AssociationField::new('user'),
+            DateTimeField::new('createdAt')
         ];
         return $res;
     }

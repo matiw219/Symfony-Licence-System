@@ -5,7 +5,7 @@ namespace App\Util;
 class GraphUtil
 {
 
-    const DEFAULT_DAYS = 180;
+    const DEFAULT_DAYS = 30;
 
     public static function graphDates($days = self::DEFAULT_DAYS) : array
     {
