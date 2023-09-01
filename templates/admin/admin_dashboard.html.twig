@@ -3,11 +3,18 @@
 {% block content_title %}Dashboard{% endblock %}
 
 {% block main %}
+    <style>
+        badge {
+            color: #212529;
+        }
+        @media (prefers-color-scheme: dark) {
+            .badge {
+                color: white;
+            }
+        }
+    </style>
+
     <hr>
-
-    <script>
-
-    </script>
 
     <div class="container">
         <div class="row">
@@ -51,7 +58,6 @@
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
@@ -64,7 +70,7 @@
         var ctx1 = document.getElementById('chartApplications');
         var data = {
             labels: days,
-            datasets: [{label: 'Applications', data: appData, borderWidth: 1, borderColor: '#2389da', backgroundColor: '#2389da'},]
+            datasets: [{label: 'Applications', data: appData, borderWidth: 3, borderColor: '#FF6969', backgroundColor: '#FF6969'},]
         }
         new Chart(ctx1, {
             type: 'line', data: data, options: {
@@ -80,7 +86,7 @@
         var ctx2 = document.getElementById('chartReleases');
         var data = {
             labels: days,
-            datasets: [{label: 'Releases', data: releaseData, borderWidth: 1, borderColor: '#2389da', backgroundColor: '#2389da'},]
+            datasets: [{label: 'Releases', data: releaseData, borderWidth: 3, borderColor: '#96C291', backgroundColor: '#96C291'},]
         }
         new Chart(ctx2, {
             type: 'line', data: data, options: {
@@ -96,7 +102,7 @@
         var ctx3 = document.getElementById('chartLicences');
         var data = {
             labels: days,
-            datasets: [{label: 'Licences', data: licenceData, borderWidth: 1, borderColor: '#2389da', backgroundColor: '#2389da'},]
+            datasets: [{label: 'Licences', data: licenceData, borderWidth: 3, borderColor: '#7091F5', backgroundColor: '#7091F5'},]
         }
         new Chart(ctx3, {
             type: 'line', data: data, options: {
