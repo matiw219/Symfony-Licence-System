@@ -32,24 +32,9 @@ class FileService
         return false;
     }
 
-    public function getAllFiles($app = null) : array
+    public function getAllFiles() : array
     {
         try {
-            $finder = new Finder();
-            $releases = $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/plugins/' . $app . '/');
-            $result = [];
-
-            foreach ($releases as $release) {
-                $result[$release->getFilename()] = $release->getFilename();
-            }
-
-            return [$app => $result];
-
-        }
-        catch (DirectoryNotFoundException $exception) {
-            return [''];
-        }
-        /*try {
             $finder = new Finder();
             $plugins = $finder->directories()->in($this->parameterBag->get('kernel.project_dir'). '/plugins/');
 
@@ -57,12 +42,12 @@ class FileService
 
             foreach ($plugins as $plugin) {
                 $finder = new Finder();
-                $release = $finder->files()->in($plugin->getRealPath());
+                $releases = $finder->files()->in($plugin->getRealPath());
 
                 $filenames = [];
 
-                foreach ($release as $release) {
-                    $filenames[$release->getFilename()] = $release->getFilename();
+                foreach ($releases as $release) {
+                    $filenames[$release->getFilename()] = $plugin->getRelativePathname() . '/' . $release->getFilename();
                 }
 
                 $result[$plugin->getFilename()] = $filenames;
@@ -72,7 +57,7 @@ class FileService
         }
         catch (DirectoryNotFoundException $exception){
             return [''];
-        }*/
+        }
     }
 
     public function getRelease(?Release $release) : ?string
@@ -81,7 +66,7 @@ class FileService
             return null;
         }
 
-        return $this->parameterBag->get('kernel.project_dir') . '/plugins/' . $release->getApplication()->getName() . '/' . $release->getFileName();
+        return $this->parameterBag->get('kernel.project_dir') . '/plugins/' . $release->getFileName();
     }
 
     public static function downloadFile($file, $name): void

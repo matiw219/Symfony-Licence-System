@@ -54,7 +54,10 @@ class ReleaseCrudController extends AbstractCrudController
             false => $res[] = TextEditorField::new('description')
         };
 
+        /** @var Release $object */
+        $object = $this->getContext()->getEntity()->getInstance();
         match ($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT) {
+            //true => $res[] = ChoiceField::new('fileName')->setChoices([$this->fileService->getAllFiles($object->getApplication()->getName())]),
             true => $res[] = ChoiceField::new('fileName')->setChoices([$this->fileService->getAllFiles()]),
             false => $res[] = TextField::new('fileName')
         };
