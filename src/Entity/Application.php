@@ -202,4 +202,36 @@ class Application
 
         return $this;
     }
+
+    public function licencesCount() : int {
+        return $this->getLicences()->count();
+    }
+
+    public function getFirstRelease() : ?Release {
+        if ($this->getReleases()->count() === 0) {
+            return null;
+        }
+
+        $array = $this->getReleases()->toArray();
+
+        usort($array, function ($q, $w) {
+            return $q->getCreatedAt() <=> $w->getCreatedAt();
+        });
+
+        return $array[0];
+    }
+
+    public function getLastRelease() : ?Release {
+        if ($this->getReleases()->count() === 0) {
+            return null;
+        }
+
+        $array = $this->getReleases()->toArray();
+
+        usort($array, function ($q, $w) {
+            return $w->getCreatedAt() <=> $q->getCreatedAt();
+        });
+
+        return $array[0];
+    }
 }
