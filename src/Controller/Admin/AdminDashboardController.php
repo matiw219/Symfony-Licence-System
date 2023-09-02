@@ -61,6 +61,7 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Genre', 'fa fa-list',Genre::class);
         yield MenuItem::linkToCrud('Application', 'fa fa-plug',Application::class);
         yield MenuItem::linkToCrud('Release', 'fa fa-file-shield',Release::class);
-        yield MenuItem::linkToCrud('Licence', 'fa fa-key',Licence::class);
+        yield MenuItem::linkToCrud('Licence', 'fa fa-key',Licence::class)
+            ->setController(LicenceCrudController::class);
     }
 }

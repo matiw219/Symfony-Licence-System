@@ -3,6 +3,9 @@
 {% block content_title %}Dashboard{% endblock %}
 
 {% block main %}
+
+    <link href="{{ asset('assets/css/alerts.css') }}" rel="stylesheet">
+
     <style>
         badge {
             color: #212529;
@@ -13,6 +16,8 @@
             }
         }
     </style>
+
+    {% include ('include/alerts.html.twig') %}
 
     <hr>
 
