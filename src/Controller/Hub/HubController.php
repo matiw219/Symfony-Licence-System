@@ -21,7 +21,7 @@ class HubController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Symfony Licence System');
+            ->setTitle('User panel');
     }
 
     public function configureMenuItems(): iterable
