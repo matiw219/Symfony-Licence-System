@@ -19,6 +19,7 @@ class IndexController extends AbstractController
                 return $this->render('registration/please_confirm_your_email.html.twig');
             }
         }
-        return $this->render('index/index.html.twig', []);
+        return $this->redirectToRoute('hub');
+        //return $this->render('index/index.html.twig', []);
     }
 }

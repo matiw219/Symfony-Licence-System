@@ -3,16 +3,22 @@
 namespace App\Controller\Hub;
 
 use App\Entity\Licence;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class UserLicenceCrudController extends AbstractCrudController
 {
@@ -85,4 +91,23 @@ class UserLicenceCrudController extends AbstractCrudController
             ->add('user')
             ->add('admin');
     }
+
+    public function edit(AdminContext $context)
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            if ($context->getEntity()->getInstance()->getUser() !== $this->getUser()) {
+                throw new AccessDeniedException('You are not owned this entity.');
+            }
+        }
+
+        return parent::edit($context);
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
+            ->andWhere('entity.user = :user')
+            ->setParameter('user', $this->getUser());
+    }
+
 }

@@ -21,6 +21,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    App\Listener\EasyAdminListener:
+        arguments:
+            $session: '@session'
+
+    session:
+        class: Symfony\Component\HttpFoundation\Session\Session
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
