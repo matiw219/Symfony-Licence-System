@@ -51,7 +51,7 @@ class AdminDashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Symfony Licence System');
+            ->setTitle('Admin panel');
     }
 
     public function configureMenuItems(): iterable
@@ -60,7 +60,8 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('User', 'fa fa-user',User::class);
         yield MenuItem::linkToCrud('Genre', 'fa fa-list',Genre::class);
         yield MenuItem::linkToCrud('Application', 'fa fa-plug',Application::class);
-        yield MenuItem::linkToCrud('Release', 'fa fa-file-shield',Release::class);
+        yield MenuItem::linkToCrud('Release', 'fa fa-file-shield',Release::class)
+            ->setController(ReleaseCrudController::class);
         yield MenuItem::linkToCrud('Licence', 'fa fa-key',Licence::class)
             ->setController(LicenceCrudController::class);
     }
