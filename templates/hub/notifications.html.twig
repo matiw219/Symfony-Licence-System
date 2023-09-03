@@ -16,31 +16,31 @@
             }
         }
 
-
-
     </style>
 
     <div>
         <div class="row">
-            <div class="col-12 mb-3">
-                <div class="border p-2 rounded">
-                    <div>
-                        <span class="user-avatar">
-                            <span class="fa-stack">
-                                <i class="user-avatar-icon-background fas fa-square fa-stack-2x"></i>
-                                <i class="user-avatar-icon-foreground fa fa-user fa-stack-1x fa-inverse"></i>
+            {% for n in notifications %}
+                <div class="col-12 mb-3">
+                    <div class="border p-2 rounded">
+                        <div>
+                            <span class="user-avatar">
+                                <span class="fa-stack">
+                                    <i class="user-avatar-icon-background fas fa-square fa-stack-2x"></i>
+                                    <i class="user-avatar-icon-foreground fa fa-user fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <span><b>{{ n.getSenderName }}</b> send message</span>
                             </span>
-                            <span><b>justadmin</b> send message</span>
-                        </span>
-                    </div>
-                    <div class="p-2">
-                        Hello there
-                    </div>
-                    <div class="p-2">
-                        <small>1 minute ago</small>
+                        </div>
+                        <div class="p-2">
+                            {{ n.message|raw }}
+                        </div>
+                        <div class="p-2">
+                            <small>{{ n.getAgo }}</small>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 

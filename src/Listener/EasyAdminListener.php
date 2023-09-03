@@ -8,7 +8,9 @@ use App\Controller\Admin\UserCrudController;
 use App\Entity\Application;
 use App\Entity\Genre;
 use App\Entity\User;
+use App\Service\NotificationService;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Psr\Log\LoggerInterface;
@@ -22,15 +24,26 @@ class EasyAdminListener implements EventSubscriberInterface
     public function __construct(
         private LoggerInterface $logger,
         private AdminUrlGenerator $adminUrlGenerator,
-        private SessionInterface $session
+        private SessionInterface $session,
+        private NotificationService $notificationService
     )
     {}
 
     public static function getSubscribedEvents()
     {
         return [
-            BeforeEntityDeletedEvent::class => ['beforeEntityDelete']
+            BeforeEntityDeletedEvent::class => ['beforeEntityDelete'],
+            AfterEntityPersistedEvent::class => ['afterEntityPersisted']
         ];
+    }
+
+    public function afterEntityPersisted(AfterEntityPersistedEvent $event) {
+        $entity = $event->getEntityInstance();
+
+        if ($entity instanceof Application) {
+            $this->notificationService->sendAll('New application on our service: <b>' . $entity->getName() . '</b> in the genre: <b>' . $entity->getGenre() . '</b>.
+                <br>You can find new app in the shop page.');
+        }
     }
 
     public function beforeEntityDelete(BeforeEntityDeletedEvent $event) {

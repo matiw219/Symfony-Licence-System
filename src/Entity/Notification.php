@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\NotificationRepository;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -77,5 +78,18 @@ class Notification
         $this->sendAt = $sendAt;
 
         return $this;
+    }
+
+    public function getSenderName() : string {
+        return ($this->getSender() ? $this->getSender()->getUsername() : "SYSTEM");
+    }
+
+    public function getAgo(): string
+    {
+        $createdDateTime = Carbon::parse($this->getSendAt());
+        $currentDateTime = Carbon::now();
+
+        $diffInSeconds = $currentDateTime->diffInSeconds($createdDateTime);
+        return Carbon::now()->subSeconds($diffInSeconds)->diffForHumans();
     }
 }
