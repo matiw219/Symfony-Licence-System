@@ -1,0 +1,47 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Notifications{% endblock %}
+
+{% block main %}
+
+    <link href="{{ asset('assets/css/alerts.css') }}" rel="stylesheet">
+
+    <style>
+        badge {
+            color: #212529;
+        }
+        @media (prefers-color-scheme: dark) {
+            .badge {
+                color: white;
+            }
+        }
+
+
+
+    </style>
+
+    <div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <div class="border p-2 rounded">
+                    <div>
+                        <span class="user-avatar">
+                            <span class="fa-stack">
+                                <i class="user-avatar-icon-background fas fa-square fa-stack-2x"></i>
+                                <i class="user-avatar-icon-foreground fa fa-user fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <span><b>justadmin</b> send message</span>
+                        </span>
+                    </div>
+                    <div class="p-2">
+                        Hello there
+                    </div>
+                    <div class="p-2">
+                        <small>1 minute ago</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
