@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
     ){}
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {

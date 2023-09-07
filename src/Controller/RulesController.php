@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RulesController extends AbstractController
 {
 
-    #[Route('/rules', name: 'app_rules')]
+    #[Route('/rules', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('hub/rules.html.twig');

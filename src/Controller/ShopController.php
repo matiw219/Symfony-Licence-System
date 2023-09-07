@@ -15,11 +15,13 @@ class ShopController extends AbstractController
     )
     {}
 
-    #[Route('/shop', name: 'app_shop')]
+    #[Route('/shop', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('hub/shop.html.twig', [
             'applications' => $this->applicationRepository->findAll()
         ]);
     }
+
+
 }

@@ -30,7 +30,7 @@ class HubController extends AbstractDashboardController
         ->setController(UserLicenceCrudController::class);
         yield MenuItem::linkToCrud('Release', 'fa fa-file-shield',Release::class)
         ->setController(UserReleaseCrudController::class);
-        yield MenuItem::linkToRoute('Shop', 'fa fa-key', 'app_shop');
+        yield MenuItem::linkToRoute('Shop', 'fa-solid fa-cart-shopping', 'app_shop');
         yield MenuItem::linkToRoute('Notifications', 'fa fa-key', 'app_notifications');
     }
 }
