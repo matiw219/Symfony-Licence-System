@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\ApplicationRepository;
-use App\Repository\PaymentRepository;
 use App\Service\PaymentService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,8 +15,6 @@ class PaymentController extends AbstractDashboardController
     public function __construct(
         private ApplicationRepository $applicationRepository,
         private PaymentService $paymentService,
-        private PaymentRepository $paymentRepository,
-
     )
     {}
 
@@ -27,6 +24,8 @@ class PaymentController extends AbstractDashboardController
         $code = $this->paymentService->result($request);
         $message = '';
         if ($code == 1) {
+            $ID_ZAMOWIENIA = $request->request->get('ID_ZAMOWIENIA');
+            $this->paymentService->tryGiveLicence($ID_ZAMOWIENIA);
             $message = 'Payment has been processed correctly.';
         }
         else if ($code == 2) {

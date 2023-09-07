@@ -4,10 +4,14 @@ namespace App\Service;
 
 use App\Configuration\PaymentConfig;
 use App\Entity\Application;
+use App\Entity\Licence;
 use App\Entity\Payment;
 use App\Entity\User;
+use App\Repository\ApplicationRepository;
 use App\Repository\PaymentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaymentService
@@ -15,7 +19,10 @@ class PaymentService
 
     public function __construct(
         private PaymentRepository $paymentRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private LoggerInterface $logger,
+        private UserRepository $userRepository,
+        private ApplicationRepository $applicationRepository
     )
     {
     }
@@ -96,6 +103,47 @@ class PaymentService
             return 6;
         }
         return 0;
+    }
+
+    public function tryGiveLicence(int $ID_ZAMOWIENIA) : void
+    {
+        if (!$this->giveLicence($ID_ZAMOWIENIA)) {
+            $this->logger->error('====');
+            $this->logger->error('Failed to give license for user, payment id: ' . $ID_ZAMOWIENIA);
+            $this->logger->error('====');
+        }
+    }
+
+    public function giveLicence(int $ID_ZAMOWIENIA) : bool
+    {
+        $payment = $this->paymentRepository->find($ID_ZAMOWIENIA);
+        if (!$payment) {
+            return false;
+        }
+
+        $user = $this->userRepository->find($payment->getUserId());
+        if (!$user) {
+            return false;
+        }
+
+        $app = $this->applicationRepository->find($payment->getAppName());
+        if (!$app) {
+            return false;
+        }
+
+        $licence = new Licence();
+        $licence->setCreatedAt(new \DateTimeImmutable());
+        $licence->setUser($user);
+        $licence->setApplication($app);
+        $licence->setAdmin(null);
+        $licence->setLicenceKey(bin2hex(random_bytes(32)));
+        $licence->setRequireHost(true);
+        $licence->setNote('Buy via system');
+
+        $this->entityManager->persist($licence);
+        $this->entityManager->flush();
+
+        return true;
     }
 
 
