@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block body %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <div class="mt-5 container text-center">
+        <h4>Generating payment</h4>
+        <p>You will be redirected in a moment!</p>
+
+        <form id="order" action="https://platnosc.hotpay.pl/"; method="post">
+            {% for k,v in form %}
+                 <input name="{{ k }}" value="{{ v }}" type="hidden">
+            {% endfor %}
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#order").trigger("submit");
+        });
+    </script>
+{% endblock %}
