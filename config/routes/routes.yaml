@@ -1,0 +1,18 @@
+app_shop:
+  path: /shop
+  controller: App\Controller\ShopController::index
+
+app_login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+app_logout:
+  path: /logout
+  controller: App\Controller\SecurityController::logout
+
+app_rules:
+  path: /rules
+  controller: App\Controller\RulesController::index
+
+app_register:
+  path: /register
+  controller: App\Controller\RegistrationController::register
